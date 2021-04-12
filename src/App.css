@@ -1,0 +1,25 @@
+
+/* Game Container*/
+
+#gameContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+/* Game Board */
+
+.gameBoardContainer{
+    display: grid;
+    height: 17.5vw;
+    width: 17.5vw;
+    grid-template-columns: repeat(10,1fr);
+    grid-template-rows: repeat(10,1fr);
+}
+
+/* Game Board Tile */
+
+.gameBoardTile{
+    border: 1px solid grey;
+    margin: 1px;
+}
