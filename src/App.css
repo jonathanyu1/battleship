@@ -21,5 +21,28 @@
 
 .gameBoardTile{
     border: 1px solid grey;
-    margin: 1px;
+}
+
+.gameBoardTile:hover{
+    cursor: pointer;
+}
+
+/* Ship */ 
+
+.shipContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ship{
+    display: flex;
+    flex-direction: column;
+    width: 1.75vw;
+}
+
+.shipUnit{
+    border: 1px solid black;
+    background-color: blue;
+    height: 1.75vw;
 }

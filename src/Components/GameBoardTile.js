@@ -3,6 +3,7 @@ import React, {useState,useEffect} from 'react';
 const GameBoardTile = (props) => {
    
     const handleClick = () => {
+        console.log(props.player);
         console.log(props.coord);
     }
 
