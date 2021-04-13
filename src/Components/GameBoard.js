@@ -19,6 +19,26 @@ const GameBoard = (props) => {
         setShipList(tempShipList);
     }
 
+    const placeShip = (data, coords) => {
+        console.log(data.shipSize);
+        console.log(data.orientation);
+        // const orientation = data.c
+    }
+
+    const drop = (e) =>{
+        console.log(e.target);
+        let coords = {x:e.target.getAttribute('data-coord-x'),y:e.target.getAttribute('data-coord-y')};
+        console.log(coords);
+        e.preventDefault();
+        let data = JSON.parse(e.dataTransfer.getData('shipData'));
+        console.log(data);
+        placeShip(data, coords);
+    }
+
+    const dragOver = (e) => {
+        e.preventDefault();
+    }
+
     const generateBoard = () => {
         let tempBoard = [];
         for (let i=0;i<boardSize;i++){
@@ -28,6 +48,8 @@ const GameBoard = (props) => {
                         key={`${player} ${j}, ${i}`}
                         coord={{x:j,y:i}}
                         player={player}
+                        onDragOver={(e)=>dragOver(e)}
+                        onDrop={(e)=>drop(e)}
                     />
                 )
             }

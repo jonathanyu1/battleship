@@ -12,7 +12,14 @@ const GameBoardTile = (props) => {
     // },[]);
 
     return (
-        <div className='gameBoardTile' onClick={handleClick}>
+        <div 
+            className='gameBoardTile' 
+            onClick={handleClick}
+            onDragOver={props.onDragOver}
+            onDrop={props.onDrop}
+            data-coord-x={props.coord.x}
+            data-coord-y={props.coord.y}
+        >
         </div>
     )
 }
