@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react';
 
 const Ship = (props) => {
 
-    const {shipSize, player} = props;
+    const {shipSize, player, id} = props;
     const [shipUnits, setShipUnits] = useState([]);
     const [coords, setCoords] = useState({});
     const [rotate, setRotate] = useState(false);
@@ -13,8 +13,8 @@ const Ship = (props) => {
 
     const generateShipUnits = () =>{
         let tempShipUnits=[];
-        for (let i=0;i<shipSize;i++){
-            tempShipUnits.push(<div className='shipUnit'></div>);
+        for (let i=1;i<=shipSize;i++){
+            tempShipUnits.push(<div className='shipUnit' data-unit={i}></div>);
         }
         setShipUnits(tempShipUnits);
     }
@@ -32,12 +32,27 @@ const Ship = (props) => {
     }
 
     const drag = (e) => {
-        console.log(e);
+        let shipUnitIndex=0;
+        if (rotate){
+            // horizontal
+            let section = e.target.getBoundingClientRect().width/shipSize;
+            let posX = (e.clientX - e.target.getBoundingClientRect().left)/section;
+            shipUnitIndex = Math.ceil(posX);
+            console.log(shipUnitIndex);
+        } else{
+            // vertical
+            let section = e.target.getBoundingClientRect().height/shipSize;
+            let posY = (e.clientY - e.target.getBoundingClientRect().top)/section;
+            shipUnitIndex = Math.ceil(posY);
+            console.log(shipUnitIndex);
+        }
         // if rotate true then horizontal, false then vertical
         const orientation = (rotate ? 'horizontal': 'vertical');
         const shipData = {
             shipSize,
-            orientation
+            orientation,
+            shipUnitIndex,
+            id
         }
         e.dataTransfer.setData('shipData',JSON.stringify(shipData));
     }

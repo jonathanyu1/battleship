@@ -1,4 +1,5 @@
 import React, {useState,useEffect} from 'react';
+import uniqid from 'uniqid';
 import GameBoardTile from './GameBoardTile';
 import Ship from './Ship';
 
@@ -14,15 +15,17 @@ const GameBoard = (props) => {
             return (<Ship 
                         shipSize={shipSize}
                         player={player}
+                        key={uniqid()}
+                        id={uniqid()}
                     />)
         });
         setShipList(tempShipList);
     }
 
     const placeShip = (data, coords) => {
-        console.log(data.shipSize);
-        console.log(data.orientation);
-        // const orientation = data.c
+        const orientation = data.orientation;
+        const index = data.shipUnitIndex;
+        const size = data.shipSize;
     }
 
     const drop = (e) =>{
@@ -45,7 +48,7 @@ const GameBoard = (props) => {
             for (let j=0;j<boardSize;j++){
                 tempBoard.push(
                     <GameBoardTile 
-                        key={`${player} ${j}, ${i}`}
+                        key={uniqid()}
                         coord={{x:j,y:i}}
                         player={player}
                         onDragOver={(e)=>dragOver(e)}
