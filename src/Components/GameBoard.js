@@ -28,6 +28,7 @@ const GameBoard = (props) => {
         let coordsArray = [];
         let shipCoords = {};
         let valid = true;
+        let result = '';
         const orientation = data.orientation;
         const index = data.shipUnitIndex;
         const size = data.shipSize;
@@ -53,10 +54,21 @@ const GameBoard = (props) => {
         }
         console.log(coordsArray);
         coordsArray.forEach((coord)=>{
-            // still need to check if board array already contains tile with ship
+            // still need to check if board array already contains tile with ship, or if board contains same ship
             if (coord.x <0 || coord.x > 9 || coord.y < 0 || coord.y > 9){
                 valid=false;
             };
+            console.log(coord);
+            console.log(shipCoordsArray);
+            for (let i=0;i<shipCoordsArray.length;i++){
+                result = shipCoordsArray[i].filter(shipCoord=>{
+                    return shipCoord.x === coord.x && shipCoord.y === coord.y;
+                });
+                if (result.length>0){
+                    valid=false;
+                    return;
+                }
+            }
         });
         console.log(valid);
         if (valid) {
@@ -84,6 +96,13 @@ const GameBoard = (props) => {
 
     const shipTileStatus = (coord) => {
         let result = '';
+        for (let i=0;i<shipCoordsArray.length;i++){
+            result = shipCoordsArray[i].filter(shipCoord=>{
+                return shipCoord.x === coord.j && shipCoord.y === coord.i;
+            }); 
+            if (result.length>0){return result;}
+        }
+        return result;
         // this does not work as result gets replaced since cannot break out of loop
 
         // shipCoordsArray.forEach((shipCoords)=>{
@@ -92,14 +111,6 @@ const GameBoard = (props) => {
         //         return shipCoord.x === coord.j && shipCoord.y === coord.i;
         //     }); 
         // });
-        
-        for (let i=0;i<shipCoordsArray.length;i++){
-            result = shipCoordsArray[i].filter(shipCoord=>{
-                return shipCoord.x === coord.j && shipCoord.y === coord.i;
-            }); 
-            if (result.length>0){return result;}
-        }
-        return result;
     }
 
     const generateBoard = () => {
@@ -130,7 +141,7 @@ const GameBoard = (props) => {
     },[shipCoordsArray]);
 
     useEffect(()=>{
-        // initialize board, randomly place ships
+        // initialize board
         generateBoard();
         generateShips();
     },[]);
