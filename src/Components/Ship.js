@@ -23,7 +23,7 @@ const Ship = (props) => {
         // rotate 
         console.log(e);
         console.log(e.target);
-        if (!rotate){
+        if (!rotate && player==='human'){
             e.target.parentNode.style.transform='rotate(90deg)';
         } else {
             e.target.parentNode.style.transform='';

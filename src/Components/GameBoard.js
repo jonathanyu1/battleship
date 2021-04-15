@@ -21,7 +21,7 @@ const GameBoard = (props) => {
                         key={uniqid()}
                         id={id}
                         // draggable='true'
-                        draggable={(shipOnBoard.indexOf(id)===-1 ? 'true':'false')}
+                        draggable={(shipOnBoard.indexOf(id)===-1 && player==='human'? 'true':'false')}
                     />)
         });
         setShipList(tempShipList);
@@ -37,7 +37,7 @@ const GameBoard = (props) => {
         const size = data.shipSize;
         const id = data.id;
 
-        if (shipOnBoard.indexOf(id)!==-1){
+        if (shipOnBoard.indexOf(id)!==-1 || player==='computer'){
             // already on board
             return;
         }
