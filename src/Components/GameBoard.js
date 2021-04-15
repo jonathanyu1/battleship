@@ -9,16 +9,19 @@ const GameBoard = (props) => {
     const [boardArray, setBoardArray] = useState([]);
     const [shipList, setShipList] = useState([]);
     const [shipCoordsArray, setShipCoordsArray] = useState([]);
+    const [shipOnBoard, setShipOnBoard] = useState([]);
 
     const generateShips = () => {
         let tempShipList = [];
         tempShipList = shipSizeArray.map((shipSize)=>{
+            let id = uniqid();
             return (<Ship 
                         shipSize={shipSize}
                         player={player}
                         key={uniqid()}
-                        id={uniqid()}
-                        draggable='true'
+                        id={id}
+                        // draggable='true'
+                        draggable={(shipOnBoard.indexOf(id)===-1 ? 'true':'false')}
                     />)
         });
         setShipList(tempShipList);
@@ -33,6 +36,11 @@ const GameBoard = (props) => {
         const index = data.shipUnitIndex;
         const size = data.shipSize;
         const id = data.id;
+
+        if (shipOnBoard.indexOf(id)!==-1){
+            // already on board
+            return;
+        }
         // check if valid destination (too up, down, left, right) (if another ship occupies space)
         if (orientation==='vertical'){
             for (let i=1;i<=size;i++){
@@ -76,6 +84,9 @@ const GameBoard = (props) => {
             setShipCoordsArray(prevShipCoordsArray => {
                 return [...prevShipCoordsArray, coordsArray];
             }); 
+            setShipOnBoard(prevShipOnBoard=>{
+                return [...prevShipOnBoard,id];
+            });
         }
         
     }
@@ -103,6 +114,7 @@ const GameBoard = (props) => {
             if (result.length>0){return result;}
         }
         return result;
+
         // this does not work as result gets replaced since cannot break out of loop
 
         // shipCoordsArray.forEach((shipCoords)=>{
@@ -145,6 +157,10 @@ const GameBoard = (props) => {
         generateBoard();
         generateShips();
     },[]);
+
+    useEffect(()=>{
+        console.log(shipOnBoard);
+    },[shipOnBoard])
 
     return (
         <div className='gameBoardWrapper'>

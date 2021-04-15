@@ -70,6 +70,7 @@ const Ship = (props) => {
             draggable={props.draggable}
             onClick={(e)=>handleClick(e)}
             onDragStart={(e)=>drag(e)}
+            id={id}
         >
             {shipUnits}
         </div>
