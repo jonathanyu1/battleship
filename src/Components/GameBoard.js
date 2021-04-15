@@ -18,6 +18,7 @@ const GameBoard = (props) => {
                         player={player}
                         key={uniqid()}
                         id={uniqid()}
+                        draggable='true'
                     />)
         });
         setShipList(tempShipList);
@@ -31,25 +32,12 @@ const GameBoard = (props) => {
         const index = data.shipUnitIndex;
         const size = data.shipSize;
         const id = data.id;
-        console.log(id);
-        console.log(coords);
-        console.log(index);
-        console.log(orientation);
-        console.log(size);
         // check if valid destination (too up, down, left, right) (if another ship occupies space)
         if (orientation==='vertical'){
-            // let distFromStartIndex = index - 1;
-            // let distFromEndIndex = size - index;
-            // if (Number(coords.y)-distFromStartIndex>=0 && Number(coords.y)+distFromEndIndex<=9){
-            //     console.log('valid');
-            // } else {
-            //     console.log('not valid');
-            // }
             for (let i=1;i<=size;i++){
                 let coordX = Number(coords.x);
                 let coordY = Number(coords.y)-(index-i);
                 console.log('x: '+coordX+' y: '+coordY);
-                // if (coordX <0 || coordX > 9 || coordY < 0 || coordY > 9){ break;}
                 shipCoords = {x: coordX, y: coordY, ship: id, hit: false};
                 coordsArray.push(shipCoords);
             }
@@ -65,18 +53,17 @@ const GameBoard = (props) => {
         }
         console.log(coordsArray);
         coordsArray.forEach((coord)=>{
-            console.log(coord);
+            // still need to check if board array already contains tile with ship
             if (coord.x <0 || coord.x > 9 || coord.y < 0 || coord.y > 9){
                 valid=false;
-            }
+            };
         });
         console.log(valid);
         if (valid) {
-            console.log(shipCoordsArray);
             // setShipCoordsArray([...shipCoordsArray, coordsArray]);
             setShipCoordsArray(prevShipCoordsArray => {
                 return [...prevShipCoordsArray, coordsArray];
-            })
+            }); 
         }
         
     }
@@ -95,6 +82,26 @@ const GameBoard = (props) => {
         e.preventDefault();
     }
 
+    const shipTileStatus = (coord) => {
+        let result = '';
+        // this does not work as result gets replaced since cannot break out of loop
+
+        // shipCoordsArray.forEach((shipCoords)=>{
+        //     console.log(shipCoords);
+        //     result = shipCoords.filter(shipCoord=>{
+        //         return shipCoord.x === coord.j && shipCoord.y === coord.i;
+        //     }); 
+        // });
+        
+        for (let i=0;i<shipCoordsArray.length;i++){
+            result = shipCoordsArray[i].filter(shipCoord=>{
+                return shipCoord.x === coord.j && shipCoord.y === coord.i;
+            }); 
+            if (result.length>0){return result;}
+        }
+        return result;
+    }
+
     const generateBoard = () => {
         let tempBoard = [];
         for (let i=0;i<boardSize;i++){
@@ -106,6 +113,7 @@ const GameBoard = (props) => {
                         player={player}
                         onDragOver={(e)=>dragOver(e)}
                         onDrop={(e)=>drop(e)}
+                        shipTileStatus={shipTileStatus({j,i})}
                         // need hasShip and hit property
                     />
                 )
@@ -114,9 +122,11 @@ const GameBoard = (props) => {
         setBoardArray(tempBoard);
     }
 
+
     useEffect(()=>{
-        // update boardArray 
+        // update boardArray
         console.log(shipCoordsArray);
+        generateBoard();
     },[shipCoordsArray]);
 
     useEffect(()=>{

@@ -66,7 +66,8 @@ const Ship = (props) => {
     return (
         <div 
             className='ship'
-            draggable='true'
+            // draggable='true'
+            draggable={props.draggable}
             onClick={(e)=>handleClick(e)}
             onDragStart={(e)=>drag(e)}
         >
