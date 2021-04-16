@@ -30,6 +30,7 @@ const GameController = () => {
                 shipSizeArray={shipSizeArray}
                 addShipOnBoard={addShipOnBoard}
                 shipOnBoard={shipOnBoard}
+                gameStart={gameStart}
             />
             <button
                 className='btnStartGame'
@@ -44,6 +45,7 @@ const GameController = () => {
                 shipSizeArray={shipSizeArray}
                 addShipOnBoard={addShipOnBoard}
                 shipOnBoard={shipOnBoard}
+                gameStart={gameStart}
             />
         </div>
     )
