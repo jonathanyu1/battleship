@@ -5,11 +5,11 @@ import Ship from './Ship';
 
 const GameBoard = (props) => {
 
-    const {boardSize, player, shipSizeArray} = props;
+    const {boardSize, player, shipSizeArray, shipOnBoard} = props;
     const [boardArray, setBoardArray] = useState([]);
     const [shipList, setShipList] = useState([]);
     const [shipCoordsArray, setShipCoordsArray] = useState([]);
-    const [shipOnBoard, setShipOnBoard] = useState([]);
+    // const [shipOnBoard, setShipOnBoard] = useState([]);
 
     const generateShips = () => {
         let tempShipList = [];
@@ -84,9 +84,10 @@ const GameBoard = (props) => {
             setShipCoordsArray(prevShipCoordsArray => {
                 return [...prevShipCoordsArray, coordsArray];
             }); 
-            setShipOnBoard(prevShipOnBoard=>{
-                return [...prevShipOnBoard,id];
-            });
+            // setShipOnBoard(prevShipOnBoard=>{
+            //     return [...prevShipOnBoard,id];
+            // });
+            props.addShipOnBoard(id);
         }
         
     }
@@ -156,11 +157,8 @@ const GameBoard = (props) => {
         // initialize board
         generateBoard();
         generateShips();
+        
     },[]);
-
-    useEffect(()=>{
-        console.log(shipOnBoard);
-    },[shipOnBoard])
 
     return (
         <div className='gameBoardWrapper'>
