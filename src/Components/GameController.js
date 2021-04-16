@@ -5,12 +5,28 @@ const GameController = () => {
     const [boardSize, setBoardSize] = useState(10);
     const [shipSizeArray, setShipSizeArray] = useState([5,4,3,3,2]);
     const [shipOnBoard, setShipOnBoard] = useState([]);
+    const [shipCoordsArray, setShipCoordsArray] = useState([]);
+    const [compShipOnBoard, setCompShipOnBoard] = useState([]);
+    const [compShipCoordsArray, setCompShipCoordsArray] = useState([]);
     const [gameStart, setGameStart] = useState(false);
 
-    const addShipOnBoard = (id) => {
-        setShipOnBoard(prevShipOnBoard=>{
-            return [...prevShipOnBoard,id];
-        });
+    const addShipCoordsArray = (coordsArray) => {
+        setShipCoordsArray(prevShipCoordsArray => {
+            return [...prevShipCoordsArray, coordsArray];
+        }); 
+    }
+
+    const addShipOnBoard = (player,id) => {
+        console.log(player);
+        if (player==='human'){
+            setShipOnBoard(prevShipOnBoard=>{
+                return [...prevShipOnBoard,id];
+            });
+        } else {
+            setCompShipOnBoard(prevShipOnBoard=>{
+                return [...prevShipOnBoard,id];
+            });
+        }
     }
 
     const handleStart = () => {
@@ -22,6 +38,11 @@ const GameController = () => {
         console.log('shipOnBoard length: ' + shipOnBoard.length);
     },[shipOnBoard]);
 
+    useEffect(()=>{
+        console.log('comp ship on board: ');
+        console.log(compShipOnBoard);
+    },[compShipOnBoard]);
+
     return (
         <div id='gameContainer'>
             <GameBoard 
@@ -31,6 +52,8 @@ const GameController = () => {
                 addShipOnBoard={addShipOnBoard}
                 shipOnBoard={shipOnBoard}
                 gameStart={gameStart}
+                addShipCoordsArray={addShipCoordsArray}
+                shipCoordsArray={shipCoordsArray}
             />
             <button
                 className='btnStartGame'
@@ -44,8 +67,10 @@ const GameController = () => {
                 player='computer'
                 shipSizeArray={shipSizeArray}
                 addShipOnBoard={addShipOnBoard}
-                shipOnBoard={shipOnBoard}
+                shipOnBoard={compShipOnBoard}
                 gameStart={gameStart}
+                addShipCoordsArray={addShipCoordsArray}
+                shipCoordsArray={compShipCoordsArray}
             />
         </div>
     )
