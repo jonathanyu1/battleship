@@ -44,23 +44,29 @@ const GameBoard = (props) => {
             return;
         }
         // check if valid destination (too up, down, left, right) (if another ship occupies space)
-        if (orientation==='vertical'){
-            for (let i=1;i<=size;i++){
-                let coordX = Number(coords.x);
-                let coordY = Number(coords.y)-(index-i);
-                console.log('x: '+coordX+' y: '+coordY);
-                shipCoords = {x: coordX, y: coordY, ship: id, hit: false};
-                coordsArray.push(shipCoords);
-            }
-            
-        } else {
-            for (let i=1;i<=size;i++){
-                let coordX = Number(coords.x)-(index-i);
-                let coordY = Number(coords.y)
-                console.log('x: '+coordX+' y: '+coordY);
-                shipCoords = {x: coordX, y: coordY, ship: id, hit: false};
-                coordsArray.push(shipCoords);
-            }
+        // if (orientation==='vertical'){
+        //     for (let i=1;i<=size;i++){
+        //         let coordX = Number(coords.x);
+        //         let coordY = Number(coords.y)-(index-i);
+        //         console.log('x: '+coordX+' y: '+coordY);
+        //         shipCoords = {x: coordX, y: coordY, ship: id, hit: false};
+        //         coordsArray.push(shipCoords);
+        //     }
+        // } else {
+        //     for (let i=1;i<=size;i++){
+        //         let coordX = Number(coords.x)-(index-i);
+        //         let coordY = Number(coords.y)
+        //         console.log('x: '+coordX+' y: '+coordY);
+        //         shipCoords = {x: coordX, y: coordY, ship: id, hit: false};
+        //         coordsArray.push(shipCoords);
+        //     }
+        // }
+        for (let i=1;i<=size;i++){
+            let coordX = (orientation==='vertical' ? Number(coords.x) : Number(coords.x)-(index-i) );
+            let coordY = (orientation==='horizontal' ? Number(coords.y) : Number(coords.y)-(index-i));
+            console.log('x: '+coordX+' y: '+coordY);
+            shipCoords = {x: coordX, y: coordY, ship: id, hit: false};
+            coordsArray.push(shipCoords);
         }
         console.log(coordsArray);
         coordsArray.forEach((coord)=>{
@@ -92,7 +98,32 @@ const GameBoard = (props) => {
             console.log(player);
             props.addShipOnBoard(player,id);
         }
+    }
+
+    const placeCompShip = (id, size) => {
+        let coordsArray = [];
+        let shipCoords = {};
+        let valid = true;
+        let result = '';
+        const orientation = (Math.floor(Math.random()*2) ? 'horizontal' : 'vertical');
+        // const index = data.shipUnitIndex;
+        console.log(shipOnBoard);
+        console.log(orientation);
+        console.log(id);
+        console.log(size);
+        // need to randomize coordinates
         
+        return valid;
+    }
+
+    const placeCompShips = () => {
+        for (let i=0;i<shipOnBoard.length;i++){
+            let valid=true;
+            do{
+                valid=placeCompShip(shipOnBoard[i], shipSizeArray[i]);
+                console.log(valid);
+            } while (!valid);
+        }
     }
 
     const drop = (e) =>{
@@ -139,6 +170,13 @@ const GameBoard = (props) => {
         }
         setBoardArray(tempBoard);
     }
+
+    useEffect(()=>{
+        if (gameStart && player==='computer'){
+            // place the 5 ships randomly, put into shipCoordsArray
+            placeCompShips();
+        }
+    },[gameStart]);
 
     useEffect(()=>{
         // update boardArray

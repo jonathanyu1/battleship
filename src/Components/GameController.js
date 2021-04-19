@@ -43,6 +43,10 @@ const GameController = () => {
         console.log(compShipOnBoard);
     },[compShipOnBoard]);
 
+    useEffect(()=>{
+        console.log(shipCoordsArray);
+    },[shipCoordsArray]);
+
     return (
         <div id='gameContainer'>
             <GameBoard 

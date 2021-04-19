@@ -10,6 +10,7 @@ const GameBoardTile = (props) => {
     }
 
     const updateTileStatus = () => {
+        // console.log(props.shipTileStatus[0]);
         if (props.shipTileStatus[0]){
             setTileStatus((props.shipTileStatus[0].hit ? 'shipHit':'hasShip'));
         }
