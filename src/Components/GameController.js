@@ -10,10 +10,17 @@ const GameController = () => {
     const [compShipCoordsArray, setCompShipCoordsArray] = useState([]);
     const [gameStart, setGameStart] = useState(false);
 
-    const addShipCoordsArray = (coordsArray) => {
-        setShipCoordsArray(prevShipCoordsArray => {
-            return [...prevShipCoordsArray, coordsArray];
-        }); 
+    const addShipCoordsArray = (player,coordsArray) => {
+        if (player==='human'){
+            setShipCoordsArray(prevShipCoordsArray => {
+                return [...prevShipCoordsArray, coordsArray];
+            }); 
+        } else {
+            setCompShipCoordsArray(prevCompShipCoordsArray => {
+                return [...prevCompShipCoordsArray, coordsArray];
+            }); 
+        }
+
     }
 
     const addShipOnBoard = (player,id) => {

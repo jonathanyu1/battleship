@@ -38,7 +38,6 @@ const GameBoard = (props) => {
         const index = data.shipUnitIndex;
         const size = data.shipSize;
         const id = data.id;
-
         if (shipOnBoard.indexOf(id)!==-1 || player==='computer'){
             // already on board or computer
             return;
@@ -88,14 +87,7 @@ const GameBoard = (props) => {
         });
         console.log(valid);
         if (valid) {
-            // setShipCoordsArray(prevShipCoordsArray => {
-            //     return [...prevShipCoordsArray, coordsArray];
-            // }); 
-            props.addShipCoordsArray(coordsArray);
-            // setShipOnBoard(prevShipOnBoard=>{
-            //     return [...prevShipOnBoard,id];
-            // });
-            console.log(player);
+            props.addShipCoordsArray(player,coordsArray);
             props.addShipOnBoard(player,id);
         }
     }
@@ -105,18 +97,46 @@ const GameBoard = (props) => {
         let shipCoords = {};
         let valid = true;
         let result = '';
+        let index = (Math.floor(Math.random()*size)+1);
         const orientation = (Math.floor(Math.random()*2) ? 'horizontal' : 'vertical');
-        // const index = data.shipUnitIndex;
+        const randX = Math.floor(Math.random()*10);
+        const randY = Math.floor(Math.random()*10);
         console.log(shipOnBoard);
+        console.log('index: '+index);
         console.log(orientation);
         console.log(id);
         console.log(size);
         // need to randomize coordinates
-        
+        for (let i=1;i<=size;i++){
+            let coordX = (orientation==='vertical' ? randX : randX-(index-i) );
+            let coordY = (orientation==='horizontal' ? randY : randY-(index-i));
+            console.log('x: '+coordX+' y: '+coordY);
+            shipCoords = {x: coordX, y: coordY, ship: id, hit: false};
+            coordsArray.push(shipCoords);
+        }
+        console.log(coordsArray);
+        coordsArray.forEach((coord)=>{
+           if (coord.x <0 || coord.x > 9 || coord.y < 0 || coord.y > 9){
+               valid=false;
+           } 
+           for (let i=0;i<shipCoordsArray.length;i++){
+                result = shipCoordsArray[i].filter(shipCoord=>{
+                    return shipCoord.x === coord.x && shipCoord.y === coord.y;
+                });
+                if (result.length>0){
+                    valid=false;
+                    return;
+                }
+            }
+        });
+        if (valid) {
+            props.addShipCoordsArray(player,coordsArray);
+        }
         return valid;
     }
 
     const placeCompShips = () => {
+        console.log(shipOnBoard.length);
         for (let i=0;i<shipOnBoard.length;i++){
             let valid=true;
             do{
