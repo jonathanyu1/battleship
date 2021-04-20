@@ -214,30 +214,28 @@ const GameBoard = (props) => {
 
     const receiveAttack = (coord) => {
         // check if already clicked
-        // let result = '';
-        // console.log(boardAttackCoords);
-        // for (let i=0;i<boardAttackCoords.length;i++){
-        //     result = boardAttackCoords[i].filter(attackCoord=>{
-        //         return attackCoord.x === coord.x && attackCoord.y === coord.y;
-        //     });
-        //     if (result.length>0){return result;}
-        // }
-        // console.log(result);
+        let result = '';
+        console.log(boardAttackCoords);
+        // prevents duplicate clicks
+        for (let i=0;i<boardAttackCoords.length;i++){
+            result = boardAttackCoords.filter(attackCoord=>{
+                return attackCoord.x === coord.x && attackCoord.y === coord.y;
+            });
+            // return result prevents updating boardAttackCoords and re-rendering
+            if (result.length>0){return result;}
+        }
+        console.log(result);
         // add attack to boardAttackCoords
         props.addBoardAttackCoords(player, coord);
     }
 
     const checkHit = () => {
         // check last added attack coord
-        console.log(shipCoordsArray);
         let tempShipCoordsArray=[...shipCoordsArray];
         let attackCoord = boardAttackCoords[boardAttackCoords.length-1];
-        console.log(tempShipCoordsArray);
         for (let i=0; i<tempShipCoordsArray.length;i++){
             let index = tempShipCoordsArray[i].findIndex(
                 shipCoord=>shipCoord.x === attackCoord.x && shipCoord.y === attackCoord.y);
-            console.log('i: '+i);
-            console.log('index:'+index);
             if (index!==-1){
                 tempShipCoordsArray[i][index].hit = true;
             }
