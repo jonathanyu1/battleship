@@ -178,6 +178,15 @@ const GameBoard = (props) => {
             }); 
             if (result.length>0){return result;}
         }
+        for (let i=0;i<boardAttackCoords.length;i++){;
+            result = boardAttackCoords.filter(attackCoord=>{
+                return attackCoord.x === coord.j && attackCoord.y === coord.i;
+            });
+            if (result.length>0){
+                result[0].miss=true;
+                return result;
+            }
+        }
         return result;
     }
 
@@ -237,22 +246,24 @@ const GameBoard = (props) => {
     }
 
     useEffect(()=>{
-        if (gameStart && player==='computer'){
-            // place the 5 ships randomly, put into shipCoordsArray
-            placeCompShips();
-        }
-    },[gameStart]);
-
-    useEffect(()=>{
         // update boardArray
         console.log(shipCoordsArray);
         generateBoard();
     },[shipCoordsArray]);
 
     useEffect(()=>{
+        if (gameStart && player==='computer'){
+            // place the 5 ships randomly, put into shipCoordsArray
+            placeCompShips();
+        }
+    },[gameStart]);
+    
+    useEffect(()=>{
         console.log(boardAttackCoords);
         // check for hit / miss, update board
         checkHit();
+        // check for sunk ship
+        // check for win
     },[boardAttackCoords]);
 
     useEffect(()=>{
