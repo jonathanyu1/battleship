@@ -92,7 +92,7 @@ const GameBoard = (props) => {
         }
     }
 
-    const placeCompShip = (id, size) => {
+    const placeCompShip = (id, size, tempShipCoordsArray) => {
         let coordsArray = [];
         let shipCoords = {};
         let valid = true;
@@ -119,28 +119,38 @@ const GameBoard = (props) => {
            if (coord.x <0 || coord.x > 9 || coord.y < 0 || coord.y > 9){
                valid=false;
            } 
-           for (let i=0;i<shipCoordsArray.length;i++){
-                result = shipCoordsArray[i].filter(shipCoord=>{
+           // this check for overlap fails
+           // fails due to async update of shipCoordsArray
+           // need temporary array
+           console.log(tempShipCoordsArray);
+           console.log(tempShipCoordsArray.length);
+           for (let i=0;i<tempShipCoordsArray.length;i++){
+
+               console.log(tempShipCoordsArray.length);
+                result = tempShipCoordsArray[i].filter(shipCoord=>{
                     return shipCoord.x === coord.x && shipCoord.y === coord.y;
                 });
                 if (result.length>0){
+                    console.log('overlap');
                     valid=false;
                     return;
                 }
             }
         });
         if (valid) {
+            // tempShipCoordsArray = [...tempShipCoordsArray,coordsArray];
+            tempShipCoordsArray.push(coordsArray);
             props.addShipCoordsArray(player,coordsArray);
         }
         return valid;
     }
 
     const placeCompShips = () => {
-        console.log(shipOnBoard.length);
+        let tempShipCoordsArray = [];
         for (let i=0;i<shipOnBoard.length;i++){
             let valid=true;
             do{
-                valid=placeCompShip(shipOnBoard[i], shipSizeArray[i]);
+                valid=placeCompShip(shipOnBoard[i], shipSizeArray[i], tempShipCoordsArray);
                 console.log(valid);
             } while (!valid);
         }
