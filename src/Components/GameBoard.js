@@ -5,7 +5,7 @@ import Ship from './Ship';
 
 const GameBoard = (props) => {
 
-    const {boardSize, player, shipSizeArray, shipOnBoard, gameStart, shipCoordsArray} = props;
+    const {boardSize, player, shipSizeArray, shipOnBoard, gameStart, shipCoordsArray, boardAttackCoords} = props;
     const [boardArray, setBoardArray] = useState([]);
     const [shipList, setShipList] = useState([]);
     // const [shipCoordsArray, setShipCoordsArray] = useState([]);
@@ -193,12 +193,47 @@ const GameBoard = (props) => {
                         onDragOver={(e)=>dragOver(e)}
                         onDrop={(e)=>drop(e)}
                         shipTileStatus={shipTileStatus({j,i})}
+                        gameStart={gameStart}
+                        receiveAttack={receiveAttack}
                         // need hasShip and hit property
                     />
                 )
             }
         }
         setBoardArray(tempBoard);
+    }
+
+    const receiveAttack = (coord) => {
+        // check if already clicked
+        // let result = '';
+        // console.log(boardAttackCoords);
+        // for (let i=0;i<boardAttackCoords.length;i++){
+        //     result = boardAttackCoords[i].filter(attackCoord=>{
+        //         return attackCoord.x === coord.x && attackCoord.y === coord.y;
+        //     });
+        //     if (result.length>0){return result;}
+        // }
+        // console.log(result);
+        // add attack to boardAttackCoords
+        props.addBoardAttackCoords(player, coord);
+    }
+
+    const checkHit = () => {
+        // check last added attack coord
+        console.log(shipCoordsArray);
+        let tempShipCoordsArray=[...shipCoordsArray];
+        let attackCoord = boardAttackCoords[boardAttackCoords.length-1];
+        console.log(tempShipCoordsArray);
+        for (let i=0; i<tempShipCoordsArray.length;i++){
+            let index = tempShipCoordsArray[i].findIndex(
+                shipCoord=>shipCoord.x === attackCoord.x && shipCoord.y === attackCoord.y);
+            console.log('i: '+i);
+            console.log('index:'+index);
+            if (index!==-1){
+                tempShipCoordsArray[i][index].hit = true;
+            }
+        }
+        props.updateShipCoordsArray(player, tempShipCoordsArray);
     }
 
     useEffect(()=>{
@@ -215,6 +250,12 @@ const GameBoard = (props) => {
     },[shipCoordsArray]);
 
     useEffect(()=>{
+        console.log(boardAttackCoords);
+        // check for hit / miss, update board
+        checkHit();
+    },[boardAttackCoords]);
+
+    useEffect(()=>{
         // initialize board
         console.log(player);
         generateBoard();
@@ -223,7 +264,7 @@ const GameBoard = (props) => {
 
     return (
         <div className='gameBoardWrapper'>
-            <div className='gameBoardContainer'>
+            <div className='gameBoardContainer' id={`${player}GameBoard`}>
                 {boardArray}
             </div>
             <div className='shipContainer'>

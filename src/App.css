@@ -30,18 +30,27 @@
     border: 1px solid grey;
 }
 
-.gameBoardTile:hover{
+#computerGameBoard .gameBoardTile:hover{
     cursor: pointer;
 }
 
-.hasShip{
+#humanGameBoard .hasShip{
     background-color: blue;
+    border: 1px solid black;
+}
+
+#computerGameBoard .hasShip{
+    background-color: green;
     border: 1px solid black;
 }
 
 .shipHit{
     background-color: red;
     border: 1px solid black;
+}
+
+.miss {
+    background-color: grey;
 }
 
 /* Ship */ 

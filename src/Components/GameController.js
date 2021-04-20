@@ -8,7 +8,31 @@ const GameController = () => {
     const [shipCoordsArray, setShipCoordsArray] = useState([]);
     const [compShipOnBoard, setCompShipOnBoard] = useState([]);
     const [compShipCoordsArray, setCompShipCoordsArray] = useState([]);
+    const [boardAttackCoords, setBoardAttackCoords] = useState([]);
+    const [compBoardAttackCoords, setCompBoardAttackCoords] = useState([]);
     const [gameStart, setGameStart] = useState(false);
+
+    // check win here
+
+    const addBoardAttackCoords = (player, coord) => {
+        if (player==='human'){
+            setBoardAttackCoords(prevBoardAttackCoords=>{
+                return [...prevBoardAttackCoords, coord];
+            });
+        } else {
+            setCompBoardAttackCoords(prevCompBoardAttackCoords=>{
+                return [...prevCompBoardAttackCoords, coord];
+            });
+        }
+    }
+
+    const updateShipCoordsArray = (player, coordsArray) => {
+        if (player==='human'){
+            setShipCoordsArray(coordsArray);
+        } else {
+            setCompShipCoordsArray(coordsArray);
+        }
+    }
 
     const addShipCoordsArray = (player,coordsArray) => {
         if (player==='human'){
@@ -65,6 +89,9 @@ const GameController = () => {
                 gameStart={gameStart}
                 addShipCoordsArray={addShipCoordsArray}
                 shipCoordsArray={shipCoordsArray}
+                boardAttackCoords={boardAttackCoords}
+                addBoardAttackCoords={addBoardAttackCoords}
+                updateShipCoordsArray={updateShipCoordsArray}
             />
             <button
                 className='btnStartGame'
@@ -82,6 +109,9 @@ const GameController = () => {
                 gameStart={gameStart}
                 addShipCoordsArray={addShipCoordsArray}
                 shipCoordsArray={compShipCoordsArray}
+                boardAttackCoords={compBoardAttackCoords}
+                addBoardAttackCoords={addBoardAttackCoords}
+                updateShipCoordsArray={updateShipCoordsArray}
             />
         </div>
     )
