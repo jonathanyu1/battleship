@@ -40,8 +40,8 @@
 }
 
 #computerGameBoard .hasShip{
-    background-color: green;
-    border: 1px solid black;
+    /* background-color: green;
+    border: 1px solid black; */
 }
 
 .shipHit{
@@ -73,4 +73,8 @@
     border: 1px solid black;
     background-color: blue;
     height: 1.75vw;
+}
+
+.sunk{
+    background-color: grey;
 }

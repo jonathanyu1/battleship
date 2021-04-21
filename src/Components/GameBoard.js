@@ -5,7 +5,7 @@ import Ship from './Ship';
 
 const GameBoard = (props) => {
 
-    const {boardSize, player, shipSizeArray, shipOnBoard, gameStart, shipCoordsArray, boardAttackCoords} = props;
+    const {boardSize, player, shipSizeArray, shipOnBoard, gameStart, shipCoordsArray, boardAttackCoords, shipSunk} = props;
     const [boardArray, setBoardArray] = useState([]);
     const [shipList, setShipList] = useState([]);
     // const [shipCoordsArray, setShipCoordsArray] = useState([]);
@@ -24,9 +24,15 @@ const GameBoard = (props) => {
                         key={uniqid()}
                         id={id}
                         draggable={(shipOnBoard.indexOf(id)===-1 && player==='human'? 'true':'false')}
+                        isSunk = {isSunk(id)}
                     />)
         });
         setShipList(tempShipList);
+    }
+
+    const isSunk = (id) => {
+        console.log((shipSunk.indexOf(id)===-1 ? false : true));
+        return (shipSunk.indexOf(id)===-1 ? false : true);
     }
 
     const placeShip = (data, coords) => {
@@ -119,8 +125,6 @@ const GameBoard = (props) => {
            if (coord.x <0 || coord.x > 9 || coord.y < 0 || coord.y > 9){
                valid=false;
            } 
-           // this check for overlap fails
-           // fails due to async update of shipCoordsArray
            // need temporary array
            console.log(tempShipCoordsArray);
            console.log(tempShipCoordsArray.length);
@@ -238,10 +242,18 @@ const GameBoard = (props) => {
                 shipCoord=>shipCoord.x === attackCoord.x && shipCoord.y === attackCoord.y);
             if (index!==-1){
                 tempShipCoordsArray[i][index].hit = true;
+                console.log(tempShipCoordsArray[i][index]);
+                console.log(tempShipCoordsArray[i][index].ship);
+                props.checkSink(player, tempShipCoordsArray[i][index].ship);
             }
         }
         props.updateShipCoordsArray(player, tempShipCoordsArray);
     }
+
+    useEffect(()=>{
+        console.log(player);
+        console.log(shipSunk);
+    },[shipSunk]);
 
     useEffect(()=>{
         // update boardArray
@@ -262,6 +274,7 @@ const GameBoard = (props) => {
         checkHit();
         // check for sunk ship
         // check for win
+        // call for computer attack, then check for sunk ship, win
     },[boardAttackCoords]);
 
     useEffect(()=>{

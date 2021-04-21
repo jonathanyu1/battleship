@@ -6,10 +6,7 @@ const Ship = (props) => {
     const [shipUnits, setShipUnits] = useState([]);
     const [coords, setCoords] = useState({});
     const [rotate, setRotate] = useState(false);
-
-    const hit = (coords) => {
-
-    }
+    const [sunk, setSunk] = useState(false);
 
     const generateShipUnits = () =>{
         let tempShipUnits=[];
@@ -56,7 +53,7 @@ const Ship = (props) => {
         }
         e.dataTransfer.setData('shipData',JSON.stringify(shipData));
     }
-
+    
     useEffect(()=>{
         console.log(shipSize);
         console.log(player);
@@ -65,7 +62,8 @@ const Ship = (props) => {
 
     return (
         <div 
-            className='ship'
+            // className={`ship ${props.isSunk}`}
+            className={`ship ${sunk ? 'sunk':''}`}
             // draggable='true'
             draggable={props.draggable}
             onClick={(e)=>handleClick(e)}

@@ -10,9 +10,38 @@ const GameController = () => {
     const [compShipCoordsArray, setCompShipCoordsArray] = useState([]);
     const [boardAttackCoords, setBoardAttackCoords] = useState([]);
     const [compBoardAttackCoords, setCompBoardAttackCoords] = useState([]);
+    const [shipSunk, setShipSunk] = useState([]);
+    const [compShipSunk, setCompShipSunk] = useState([]);
     const [gameStart, setGameStart] = useState(false);
 
     // check win here
+
+    const checkSink = (player, id) => {
+        console.log('checkSink');
+        console.log(player);
+        console.log(id);
+        console.log((player==='human'?shipCoordsArray:compShipCoordsArray));   
+        for (let i=0; i<(player==='human'?shipCoordsArray:compShipCoordsArray).length;i++){
+            let result = (player==='human'?shipCoordsArray:compShipCoordsArray)[i].filter(shipCoord=>{
+                return shipCoord.ship === id;
+            });
+            if (result.length>0){
+                console.log(result);
+                console.log(result.length);
+                let shipSize = result.length;
+                let hitCount = 0;
+                result.forEach(coord=>{
+                    console.log(coord);
+                    if (coord.hit===true){hitCount++;};
+                });
+                console.log(hitCount);
+                if (hitCount===shipSize){
+                    (player==='human' ? setShipSunk([...shipSunk,id]) : setCompShipSunk([...compShipSunk,id]));
+                }
+                return;
+            }
+        }
+    }
 
     const addBoardAttackCoords = (player, coord) => {
         if (player==='human'){
@@ -92,6 +121,8 @@ const GameController = () => {
                 boardAttackCoords={boardAttackCoords}
                 addBoardAttackCoords={addBoardAttackCoords}
                 updateShipCoordsArray={updateShipCoordsArray}
+                shipSunk={shipSunk}
+                checkSink={checkSink}
             />
             <button
                 className='btnStartGame'
@@ -112,6 +143,8 @@ const GameController = () => {
                 boardAttackCoords={compBoardAttackCoords}
                 addBoardAttackCoords={addBoardAttackCoords}
                 updateShipCoordsArray={updateShipCoordsArray}
+                shipSunk={compShipSunk}
+                checkSink={checkSink}
             />
         </div>
     )
