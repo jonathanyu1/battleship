@@ -18,7 +18,7 @@ const GameController = () => {
 
     const updateStatus = () => {
         if (gameStart && winner) {
-            setStatus('The winner is: '+winner);
+            setStatus(`${winner} wins!`);
         } else if (gameStart) {
             setStatus('Attack!');
         } else {
@@ -151,6 +151,7 @@ const GameController = () => {
                 shipSunk={shipSunk}
                 checkSink={checkSink}
                 checkWin={checkWin}
+                winner={winner}
             />
             <div id='stuffContainer'>
                 <button
@@ -178,6 +179,7 @@ const GameController = () => {
                 shipSunk={compShipSunk}
                 checkSink={checkSink}
                 checkWin={checkWin}
+                winner={winner}
             />
         </div>
     )

@@ -2,13 +2,13 @@ import React, {useState,useEffect} from 'react';
 
 const GameBoardTile = (props) => {
 
-    const {gameStart, player, coord} = props;
+    const {gameStart, player, coord, winner} = props;
     const [tileStatus, setTileStatus] = useState('empty');
    
     const handleClick = () => {
         console.log(player);
         console.log(coord);
-        if (gameStart && player==='computer'){
+        if (gameStart && player==='computer' ){
             console.log('attack');
             props.receiveAttack(coord);
         }
@@ -33,7 +33,7 @@ const GameBoardTile = (props) => {
     return (
         <div 
             className={`gameBoardTile ${tileStatus}`} 
-            onClick={handleClick}
+            onClick={(winner?null:handleClick)}
             onDragOver={props.onDragOver}
             onDrop={props.onDrop}
             data-coord-x={props.coord.x}

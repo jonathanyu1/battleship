@@ -5,7 +5,7 @@ import Ship from './Ship';
 
 const GameBoard = (props) => {
 
-    const {boardSize, player, shipSizeArray, shipOnBoard, gameStart, shipCoordsArray, boardAttackCoords, shipSunk} = props;
+    const {boardSize, player, shipSizeArray, shipOnBoard, gameStart, shipCoordsArray, boardAttackCoords, shipSunk, winner} = props;
     const [boardArray, setBoardArray] = useState([]);
     const [shipList, setShipList] = useState([]);
     // const [shipCoordsArray, setShipCoordsArray] = useState([]);
@@ -223,6 +223,7 @@ const GameBoard = (props) => {
                         shipTileStatus={shipTileStatus({j,i})}
                         gameStart={gameStart}
                         receiveAttack={receiveAttack}
+                        winner={winner}
                         // need hasShip and hit property
                     />
                 )
