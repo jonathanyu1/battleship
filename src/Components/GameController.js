@@ -13,7 +13,18 @@ const GameController = () => {
     const [shipSunk, setShipSunk] = useState([]);
     const [compShipSunk, setCompShipSunk] = useState([]);
     const [gameStart, setGameStart] = useState(false);
-    // const [winner, setWinner] = useState();
+    const [status, setStatus] = useState('Place Ships');
+    const [winner, setWinner] = useState();
+
+    const updateStatus = () => {
+        if (gameStart && winner) {
+            setStatus('The winner is: '+winner);
+        } else if (gameStart) {
+            setStatus('Attack!');
+        } else {
+            setStatus('Place Ships');
+        }
+    }
 
     // check win here
 
@@ -24,6 +35,7 @@ const GameController = () => {
         console.log((player==='human'?shipSunk:compShipSunk).length);
         if ((player==='human'?shipSunk:compShipSunk).length>=shipSizeArray.length){
             console.log((player==='human'?'computer':'human')+' is the winner');
+            setWinner((player==='human'?'computer':'human'));
         }
     }
 
@@ -105,6 +117,10 @@ const GameController = () => {
     }
 
     useEffect(()=>{
+        updateStatus();
+    },[gameStart, winner]);
+
+    useEffect(()=>{
         console.log(shipOnBoard);
         console.log('shipOnBoard length: ' + shipOnBoard.length);
     },[shipOnBoard]);
@@ -136,13 +152,17 @@ const GameController = () => {
                 checkSink={checkSink}
                 checkWin={checkWin}
             />
-            <button
-                className='btnStartGame'
-                onClick={handleStart}
-                disabled={(shipOnBoard.length===shipSizeArray.length && !gameStart) ? false:true}
-            >
-                Start Game
-            </button>
+            <div id='stuffContainer'>
+                <button
+                    className='btnStartGame'
+                    onClick={handleStart}
+                    disabled={(shipOnBoard.length===shipSizeArray.length && !gameStart) ? false:true}
+                >
+                    Start Game
+                </button>
+                <div id='statusMessage'>{status}</div>
+            </div>
+            
             <GameBoard 
                 boardSize={boardSize}
                 player='computer'
