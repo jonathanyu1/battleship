@@ -30,6 +30,21 @@ const GameBoard = (props) => {
         setShipList(tempShipList);
     }
 
+    const updateShips = () => {
+        let tempShipList = [];
+        tempShipList = shipSizeArray.map((shipSize, i)=>{
+            return (<Ship
+                        shipSize={shipSize}
+                        player={player}
+                        key={uniqid()}
+                        id={shipOnBoard[i]}
+                        draggable={(shipOnBoard.indexOf(shipOnBoard[i])===-1 && player==='human'? 'true':'false')}
+                        isSunk = {isSunk(shipOnBoard[i])}
+                    />)
+        });
+        setShipList(tempShipList);
+    }
+
     const isSunk = (id) => {
         console.log((shipSunk.indexOf(id)===-1 ? false : true));
         return (shipSunk.indexOf(id)===-1 ? false : true);
@@ -253,6 +268,7 @@ const GameBoard = (props) => {
     useEffect(()=>{
         console.log(player);
         console.log(shipSunk);
+        updateShips();
     },[shipSunk]);
 
     useEffect(()=>{
