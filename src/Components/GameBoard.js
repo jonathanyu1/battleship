@@ -256,6 +256,7 @@ const GameBoard = (props) => {
             let index = tempShipCoordsArray[i].findIndex(
                 shipCoord=>shipCoord.x === attackCoord.x && shipCoord.y === attackCoord.y);
             if (index!==-1){
+                // if hit, set hit and check if ship is sunk
                 tempShipCoordsArray[i][index].hit = true;
                 console.log(tempShipCoordsArray[i][index]);
                 console.log(tempShipCoordsArray[i][index].ship);
@@ -269,6 +270,7 @@ const GameBoard = (props) => {
         console.log(player);
         console.log(shipSunk);
         updateShips();
+        props.checkWin(player);
     },[shipSunk]);
 
     useEffect(()=>{
@@ -286,9 +288,9 @@ const GameBoard = (props) => {
     
     useEffect(()=>{
         console.log(boardAttackCoords);
-        // check for hit / miss, update board
+        // check for hit / miss, check for sink ship,  update board
         checkHit();
-        // check for sunk ship
+        // props.checkWin(player);
         // check for win
         // call for computer attack, then check for sunk ship, win
     },[boardAttackCoords]);

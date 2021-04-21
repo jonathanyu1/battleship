@@ -13,8 +13,19 @@ const GameController = () => {
     const [shipSunk, setShipSunk] = useState([]);
     const [compShipSunk, setCompShipSunk] = useState([]);
     const [gameStart, setGameStart] = useState(false);
+    // const [winner, setWinner] = useState();
 
     // check win here
+
+    const checkWin = (player) => {
+        // player is the person that just got attacked
+        console.log('checkWin');
+        console.log((player==='human'?shipSunk:compShipSunk));
+        console.log((player==='human'?shipSunk:compShipSunk).length);
+        if ((player==='human'?shipSunk:compShipSunk).length>=shipSizeArray.length){
+            console.log((player==='human'?'computer':'human')+' is the winner');
+        }
+    }
 
     const checkSink = (player, id) => {
         console.log('checkSink');
@@ -123,6 +134,7 @@ const GameController = () => {
                 updateShipCoordsArray={updateShipCoordsArray}
                 shipSunk={shipSunk}
                 checkSink={checkSink}
+                checkWin={checkWin}
             />
             <button
                 className='btnStartGame'
@@ -145,6 +157,7 @@ const GameController = () => {
                 updateShipCoordsArray={updateShipCoordsArray}
                 shipSunk={compShipSunk}
                 checkSink={checkSink}
+                checkWin={checkWin}
             />
         </div>
     )
