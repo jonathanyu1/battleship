@@ -40,8 +40,8 @@
 }
 
 #computerGameBoard .hasShip{
-    background-color: green;
-    border: 1px solid black;
+    /* background-color: green;
+    border: 1px solid black; */
 }
 
 .shipHit{

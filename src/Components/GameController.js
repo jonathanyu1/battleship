@@ -17,6 +17,28 @@ const GameController = () => {
     const [status, setStatus] = useState('Place Ships');
     const [winner, setWinner] = useState();
 
+    useEffect(()=>{
+        if (winner){
+            console.log('hi');
+            newGame();
+        }
+    },[winner]);
+
+    const newGame = () => {
+        setShipOnBoard([]);
+        setShipCoordsArray([]);
+        setCompShipOnBoard([]);
+        setCompShipCoordsArray([]);
+        setBoardAttackCoords([]);
+        setCompBoardAttackCoords([]);
+        setShipSunk([]);
+        setCompShipSunk([]);
+        setGameStart(false);
+        setCurrPlayerTurn('human');
+        setWinner();
+        // issue on replaying game: ids are gone from ships
+    }
+
     const updateStatus = () => {
         if (gameStart && winner) {
             setStatus(`${winner} wins!`);

@@ -61,6 +61,7 @@ const GameBoard = (props) => {
         const id = data.id;
         if (shipOnBoard.indexOf(id)!==-1 || player==='computer'){
             // already on board or computer
+            console.log('already on board ');
             return;
         }
         // check if valid destination (too up, down, left, right) (if another ship occupies space)
@@ -291,8 +292,12 @@ const GameBoard = (props) => {
     useEffect(()=>{
         console.log(player);
         console.log(shipSunk);
-        updateShips();
-        props.checkWin(player);
+        if (gameStart){
+            updateShips();
+            props.checkWin(player);
+        } else {
+            generateShips();
+        }
     },[shipSunk]);
 
     useEffect(()=>{
