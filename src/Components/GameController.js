@@ -13,6 +13,7 @@ const GameController = () => {
     const [shipSunk, setShipSunk] = useState([]);
     const [compShipSunk, setCompShipSunk] = useState([]);
     const [gameStart, setGameStart] = useState(false);
+    const [currPlayerTurn, setCurrPlayerTurn] = useState('human');
     const [status, setStatus] = useState('Place Ships');
     const [winner, setWinner] = useState();
 
@@ -24,6 +25,10 @@ const GameController = () => {
         } else {
             setStatus('Place Ships');
         }
+    }
+
+    const updateTurn = () => {
+        (currPlayerTurn === 'human' ? setCurrPlayerTurn('computer') : setCurrPlayerTurn('human'));
     }
 
     // check win here
@@ -151,6 +156,8 @@ const GameController = () => {
                 shipSunk={shipSunk}
                 checkSink={checkSink}
                 checkWin={checkWin}
+                currPlayerTurn={currPlayerTurn}
+                updateTurn={updateTurn}
                 winner={winner}
             />
             <div id='stuffContainer'>
@@ -179,6 +186,8 @@ const GameController = () => {
                 shipSunk={compShipSunk}
                 checkSink={checkSink}
                 checkWin={checkWin}
+                currPlayerTurn={currPlayerTurn}
+                updateTurn={updateTurn}
                 winner={winner}
             />
         </div>

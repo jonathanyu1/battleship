@@ -5,7 +5,7 @@ import Ship from './Ship';
 
 const GameBoard = (props) => {
 
-    const {boardSize, player, shipSizeArray, shipOnBoard, gameStart, shipCoordsArray, boardAttackCoords, shipSunk, winner} = props;
+    const {boardSize, player, shipSizeArray, shipOnBoard, gameStart, shipCoordsArray, boardAttackCoords, shipSunk, winner, currPlayerTurn} = props;
     const [boardArray, setBoardArray] = useState([]);
     const [shipList, setShipList] = useState([]);
     // const [shipCoordsArray, setShipCoordsArray] = useState([]);
@@ -232,23 +232,6 @@ const GameBoard = (props) => {
         setBoardArray(tempBoard);
     }
 
-    const receiveAttack = (coord) => {
-        // check if already clicked
-        let result = '';
-        console.log(boardAttackCoords);
-        // prevents duplicate clicks
-        for (let i=0;i<boardAttackCoords.length;i++){
-            result = boardAttackCoords.filter(attackCoord=>{
-                return attackCoord.x === coord.x && attackCoord.y === coord.y;
-            });
-            // return result prevents updating boardAttackCoords and re-rendering
-            if (result.length>0){return result;}
-        }
-        console.log(result);
-        // add attack to boardAttackCoords
-        props.addBoardAttackCoords(player, coord);
-    }
-
     const checkHit = () => {
         // check last added attack coord
         let tempShipCoordsArray=[...shipCoordsArray];
@@ -267,12 +250,60 @@ const GameBoard = (props) => {
         props.updateShipCoordsArray(player, tempShipCoordsArray);
     }
 
+    const receiveAttack = (coord) => {
+        // check if already clicked
+        let result = '';
+        console.log(boardAttackCoords);
+        // prevents duplicate clicks
+        for (let i=0;i<boardAttackCoords.length;i++){
+            result = boardAttackCoords.filter(attackCoord=>{
+                return attackCoord.x === coord.x && attackCoord.y === coord.y;
+            });
+            // return result prevents updating boardAttackCoords and re-rendering
+            if (result.length>0){return result;}
+        }
+        console.log(result);
+        // add attack to boardAttackCoords
+        props.addBoardAttackCoords(player, coord);
+    }
+
+    const computerAttack = () => {
+        let result = '';
+        do{
+            let coordx = Math.floor(Math.random()*10);
+            let coordy = Math.floor(Math.random()*10);
+            let coord = {x: coordx, y: coordy}
+            console.log(coord);
+            result = receiveAttack(coord);
+        } while (result);
+    }
+
+    useEffect(()=>{
+        // if board is humans and currPlayerTurn is computer, make computer attack
+        console.log('curr turn is: '+currPlayerTurn);
+        if (player==='human' && currPlayerTurn==='computer' && !winner && gameStart){
+            console.log('computers turn to attack');
+            computerAttack();
+            // props.updateTurn();
+        }
+    },[currPlayerTurn]);
+
     useEffect(()=>{
         console.log(player);
         console.log(shipSunk);
         updateShips();
         props.checkWin(player);
     },[shipSunk]);
+
+    useEffect(()=>{
+        console.log(boardAttackCoords);
+        // check for hit / miss, check for sink ship,  update board
+        checkHit();
+        // props.checkWin(player);
+        // check for win
+        props.updateTurn();
+        // call for computer attack, then check for sunk ship, win
+    },[boardAttackCoords]);
 
     useEffect(()=>{
         // update boardArray
@@ -286,15 +317,6 @@ const GameBoard = (props) => {
             placeCompShips();
         }
     },[gameStart]);
-    
-    useEffect(()=>{
-        console.log(boardAttackCoords);
-        // check for hit / miss, check for sink ship,  update board
-        checkHit();
-        // props.checkWin(player);
-        // check for win
-        // call for computer attack, then check for sunk ship, win
-    },[boardAttackCoords]);
 
     useEffect(()=>{
         // initialize board
