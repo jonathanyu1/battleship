@@ -8,7 +8,7 @@ const GameBoardTile = (props) => {
     const handleClick = () => {
         console.log(player);
         console.log(coord);
-        if (gameStart && player==='computer' ){
+        if (gameStart && player==='computer' && !winner){
             console.log('attack');
             props.receiveAttack(coord);
         }

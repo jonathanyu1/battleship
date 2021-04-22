@@ -296,13 +296,15 @@ const GameBoard = (props) => {
     },[shipSunk]);
 
     useEffect(()=>{
-        console.log(boardAttackCoords);
-        // check for hit / miss, check for sink ship,  update board
-        checkHit();
-        // props.checkWin(player);
-        // check for win
-        props.updateTurn();
-        // call for computer attack, then check for sunk ship, win
+        if (gameStart){
+            console.log(boardAttackCoords);
+            // check for hit / miss, check for sink ship,  update board
+            checkHit();
+            // props.checkWin(player);
+            // check for win
+            props.updateTurn();
+            // call for computer attack, then check for sunk ship, win
+        }
     },[boardAttackCoords]);
 
     useEffect(()=>{
