@@ -1,4 +1,42 @@
 
+*{
+    box-sizing: border-box;
+}
+
+:root{
+    --bgColor: #a1baf8;
+    --btnHover: #c0cef1;
+}
+
+html, body, #root, #appContainer{
+    height: 100%;
+    width: 100%;
+    background-color: var(--bgColor);
+    font-family: 'Oswald', sans-serif;
+}
+
+/* Header */
+
+#header{
+    margin-top: 1vw;
+}
+
+#headerContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#headerTitle{
+    font-size: 35px;
+    text-decoration: underline;
+}
+
+#headerContainer span{
+    font-size: 35px;
+    margin-right: 10px;
+}
+
 /* Game Container*/
 
 #gameContainer{
@@ -6,13 +44,37 @@
     flex-direction: row;
     justify-content: space-around;
     align-items:baseline;
+    margin: 0 10vw;
 }
 
-/* start game button */
+/* game status container */
+
+#gameStatusContainer{
+    text-align: center;
+    margin-top: 75px;
+}
 
 .btnStartGame{
-    margin-top: 50px;
+    margin-top: 75px;
+    padding: 10px;
+    font-size: 25px;
+    border: none;
+    background-color: var(--bgColor);
 }
+
+.btnStartGame:hover{
+    cursor: pointer;
+    background-color: var(--btnHover);
+}
+
+#statusMessage, #gameWinMessage{
+    font-size: 25px;
+}
+
+#statusMessage{
+    border-bottom: 1px solid black;
+}
+
 
 /* Game Board */
 
@@ -24,10 +86,16 @@
     grid-template-rows: repeat(10,1fr);
 }
 
+.gameBoardTitle{
+    text-align:center;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
 /* Game Board Tile */
 
 .gameBoardTile{
-    border: 1px solid grey;
+    border: 1px solid black;
 }
 
 #computerGameBoard .gameBoardTile:hover{
@@ -61,6 +129,7 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 100px;
+    flex-wrap: wrap;
 }
 
 .ship{

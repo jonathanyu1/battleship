@@ -334,6 +334,7 @@ const GameBoard = (props) => {
 
     return (
         <div className='gameBoardWrapper'>
+            <div className='gameBoardTitle'>{player.charAt(0).toUpperCase()+player.slice(1)}'s Board</div>
             <div className='gameBoardContainer' id={`${player}GameBoard`}>
                 {boardArray}
             </div>

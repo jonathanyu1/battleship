@@ -15,6 +15,7 @@ const GameController = () => {
     const [gameStart, setGameStart] = useState(false);
     const [currPlayerTurn, setCurrPlayerTurn] = useState('human');
     const [status, setStatus] = useState('Place Ships');
+    const [gameWin, setGameWin] = useState();
     const [winner, setWinner] = useState();
 
     useEffect(()=>{
@@ -40,10 +41,18 @@ const GameController = () => {
     }
 
     const updateStatus = () => {
+        // if (gameStart && winner) {
+        //     setStatus(`${winner} wins!`);
+        // } else if (gameStart) {
+        //     setStatus('Attack!');
+        // } else {
+        //     setStatus('Place Ships');
+        // }
         if (gameStart && winner) {
-            setStatus(`${winner} wins!`);
-        } else if (gameStart) {
+            setGameWin(`${winner.charAt(0).toUpperCase()+winner.slice(1)} wins!`);
+        } else if (gameStart){
             setStatus('Attack!');
+            setGameWin();
         } else {
             setStatus('Place Ships');
         }
@@ -182,7 +191,9 @@ const GameController = () => {
                 updateTurn={updateTurn}
                 winner={winner}
             />
-            <div id='stuffContainer'>
+            <div id='gameStatusContainer'>
+                <div id='gameWinMessage'>{gameWin}</div>
+                <div id='statusMessage'>{status}</div>
                 <button
                     className='btnStartGame'
                     onClick={handleStart}
@@ -190,7 +201,6 @@ const GameController = () => {
                 >
                     Start Game
                 </button>
-                <div id='statusMessage'>{status}</div>
             </div>
             
             <GameBoard 
