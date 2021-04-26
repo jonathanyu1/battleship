@@ -84,6 +84,7 @@ html, body, #root, #appContainer{
     width: 17.5vw;
     grid-template-columns: repeat(10,1fr);
     grid-template-rows: repeat(10,1fr);
+    border: 1px solid black;
 }
 
 .gameBoardTitle{
