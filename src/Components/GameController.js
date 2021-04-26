@@ -20,7 +20,6 @@ const GameController = () => {
 
     useEffect(()=>{
         if (winner){
-            console.log('hi');
             newGame();
         }
     },[winner]);
@@ -66,34 +65,22 @@ const GameController = () => {
 
     const checkWin = (player) => {
         // player is the person that just got attacked
-        console.log('checkWin');
-        console.log((player==='human'?shipSunk:compShipSunk));
-        console.log((player==='human'?shipSunk:compShipSunk).length);
         if ((player==='human'?shipSunk:compShipSunk).length>=shipSizeArray.length){
-            console.log((player==='human'?'computer':'human')+' is the winner');
             setWinner((player==='human'?'computer':'human'));
         }
     }
 
     const checkSink = (player, id) => {
-        console.log('checkSink');
-        console.log(player);
-        console.log(id);
-        console.log((player==='human'?shipCoordsArray:compShipCoordsArray));   
         for (let i=0; i<(player==='human'?shipCoordsArray:compShipCoordsArray).length;i++){
             let result = (player==='human'?shipCoordsArray:compShipCoordsArray)[i].filter(shipCoord=>{
                 return shipCoord.ship === id;
             });
             if (result.length>0){
-                console.log(result);
-                console.log(result.length);
                 let shipSize = result.length;
                 let hitCount = 0;
                 result.forEach(coord=>{
-                    console.log(coord);
                     if (coord.hit===true){hitCount++;};
                 });
-                console.log(hitCount);
                 if (hitCount===shipSize){
                     (player==='human' ? setShipSunk([...shipSunk,id]) : setCompShipSunk([...compShipSunk,id]));
                 }
@@ -136,7 +123,6 @@ const GameController = () => {
     }
 
     const addShipOnBoard = (player,id) => {
-        console.log(player);
         if (player==='human'){
             setShipOnBoard(prevShipOnBoard=>{
                 return [...prevShipOnBoard,id];
@@ -155,20 +141,6 @@ const GameController = () => {
     useEffect(()=>{
         updateStatus();
     },[gameStart, winner]);
-
-    useEffect(()=>{
-        console.log(shipOnBoard);
-        console.log('shipOnBoard length: ' + shipOnBoard.length);
-    },[shipOnBoard]);
-
-    useEffect(()=>{
-        console.log('comp ship on board: ');
-        console.log(compShipOnBoard);
-    },[compShipOnBoard]);
-
-    useEffect(()=>{
-        console.log(shipCoordsArray);
-    },[shipCoordsArray]);
 
     return (
         <div id='gameContainer'>

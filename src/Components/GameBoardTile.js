@@ -6,10 +6,7 @@ const GameBoardTile = (props) => {
     const [tileStatus, setTileStatus] = useState('empty');
    
     const handleClick = () => {
-        console.log(player);
-        console.log(coord);
         if (gameStart && player==='computer' && !winner){
-            console.log('attack');
             props.receiveAttack(coord);
         }
     }

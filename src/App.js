@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React from 'react';
 import Header from './Components/Header';
 import GameController from './Components/GameController';
 import './App.css'

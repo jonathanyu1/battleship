@@ -1,24 +1,22 @@
 import React, {useState,useEffect} from 'react';
+import uniqid from 'uniqid';
 
 const Ship = (props) => {
 
     const {shipSize, player, id} = props;
     const [shipUnits, setShipUnits] = useState([]);
-    const [coords, setCoords] = useState({});
     const [rotate, setRotate] = useState(false);
 
     const generateShipUnits = () =>{
         let tempShipUnits=[];
         for (let i=1;i<=shipSize;i++){
-            tempShipUnits.push(<div className='shipUnit' data-unit={i}></div>);
+            tempShipUnits.push(<div className='shipUnit' data-unit={i} key={uniqid()}></div>);
         }
         setShipUnits(tempShipUnits);
     }
 
     const handleClick = (e) =>{
         // rotate 
-        console.log(e);
-        console.log(e.target);
         if (!rotate && player==='human'){
             e.target.parentNode.style.transform='rotate(90deg)';
         } else {
@@ -34,13 +32,11 @@ const Ship = (props) => {
             let section = e.target.getBoundingClientRect().width/shipSize;
             let posX = (e.clientX - e.target.getBoundingClientRect().left)/section;
             shipUnitIndex = Math.ceil(posX);
-            console.log(shipUnitIndex);
         } else{
             // vertical
             let section = e.target.getBoundingClientRect().height/shipSize;
             let posY = (e.clientY - e.target.getBoundingClientRect().top)/section;
             shipUnitIndex = Math.ceil(posY);
-            console.log(shipUnitIndex);
         }
         // if rotate true then horizontal, false then vertical
         const orientation = (rotate ? 'horizontal': 'vertical');
@@ -54,8 +50,6 @@ const Ship = (props) => {
     }
 
     useEffect(()=>{
-        console.log(shipSize);
-        console.log(player);
         generateShipUnits();
     },[]);
 
